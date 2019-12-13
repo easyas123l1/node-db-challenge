@@ -11,5 +11,7 @@ function getProjects() {
 }
 
 function getProjectId(id) {
-  return db("projects").where("id", "=", id);
+  return db("projects")
+    .join("tasks", "projects.id", "tasks.project_id")
+    .where("projects.id", "=", id);
 }

@@ -7,7 +7,10 @@ exports.up = function(knex) {
 
       tbl.string("description", 255);
 
-      tbl.boolean("completed", false).notNullable();
+      tbl
+        .boolean("completed")
+        .notNullable()
+        .defaultTo(false);
     })
     .createTable("tasks", tbl => {
       tbl.increments();
@@ -25,7 +28,10 @@ exports.up = function(knex) {
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
 
-      tbl.boolean("completed", false).notNullable();
+      tbl
+        .boolean("completed")
+        .notNullable()
+        .defaultTo(false);
     })
     .createTable("resources", tbl => {
       tbl.increments();
