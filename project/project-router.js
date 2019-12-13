@@ -11,7 +11,18 @@ router.get("/", (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ message: "failed to get recipes" });
+      res.status(500).json({ message: "failed to get project" });
+    });
+});
+
+router.get("/:id", (req, res) => {
+  Project.getProjectId(req.params.id)
+    .then(project => {
+      res.status(200).json(project);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "failed to get project by id" });
     });
 });
 

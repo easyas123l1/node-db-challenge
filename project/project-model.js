@@ -10,4 +10,6 @@ function getProjects() {
   return db("projects");
 }
 
-function getProjectId(id) {}
+function getProjectId(id) {
+  return db("projects").where("id", "=", id);
+}
