@@ -12,7 +12,12 @@ module.exports = {
 
 // return all projects.
 function getProjects() {
-  return db("projects");
+  return db("projects").then(projects => {
+    projects.forEach(project => {
+      project.completed = project.completed > 0;
+    });
+    return projects;
+  });
 }
 
 function getProjectId(id) {
@@ -20,7 +25,13 @@ function getProjectId(id) {
 }
 
 function getTasksByProjectId(id) {
-  return db("tasks").where("project_id", "=", id);
+  return db("tasks")
+    .where("project_id", "=", id)
+    .then(res => {
+      [re] = res;
+      re.completed = re.completed > 0;
+      return re;
+    });
 }
 
 function getResourcesByProjectId(id) {
@@ -35,7 +46,10 @@ function addProject(data) {
     .then(ids => {
       const [id] = ids;
 
-      return getProjectId(id);
+      return getProjectId(id).then(project => {
+        project.completed = project.completed > 0;
+        return project;
+      });
     });
 }
 

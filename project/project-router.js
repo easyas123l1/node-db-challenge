@@ -21,11 +21,13 @@ router.get("/:id", (req, res) => {
     .then(pro => {
       return Project.getResourcesByProjectId(req.params.id).then(resource => {
         return Project.getTasksByProjectId(req.params.id).then(task => {
+          task.completed = task.completed > 0;
+          let newTask = task;
           let back = {
             id: pro[0].id,
             name: pro[0].name,
             description: pro[0].description,
-            completed: !!pro.completed,
+            completed: pro.completed > 0,
             tasks: task,
             resources: resource
           };

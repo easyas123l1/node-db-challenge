@@ -1,25 +1,33 @@
 const db = require("../data/db-config");
 
 module.exports = {
-  getTasks,
-  getTaskId,
-  addTask
+  getTasksByProjectId,
+  getTaskId
 };
 
-function getTasks() {
-  return db("tasks");
+function getTasksByProjectId(id) {
+  return db
+    .select(
+      "projects.name as project name",
+      "projects.description as project description",
+      "tasks.*"
+    )
+    .from("tasks")
+    .join("projects", "tasks.project_id", "=", "projects.id")
+    .where("tasks.project_id", id)
+    .then(tasks => {
+      [task] = tasks;
+      task.completed = task.completed > 0;
+      return task;
+    });
 }
 
 function getTaskId(id) {
-  return db("tasks").where("id", "=", id);
-}
-
-function addTask(data) {
   return db("tasks")
-    .insert(data, "id")
-    .then(ids => {
-      const [id] = ids;
-
-      return getTaskId(id);
+    .where("id", "=", id)
+    .then(tasks => {
+      [task] = tasks;
+      task.completed = task.completed > 0;
+      return task;
     });
 }
