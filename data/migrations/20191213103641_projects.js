@@ -57,4 +57,10 @@ exports.up = function(knex) {
     });
 };
 
-exports.down = function(knex) {};
+exports.down = function(knex) {
+  return knex.schema
+    .dropTableIfExists("projects")
+    .dropTableIfExists("tasks")
+    .dropTableIfExists("resources")
+    .dropTableIfExists("project_resource");
+};
