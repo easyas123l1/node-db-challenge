@@ -25,7 +25,7 @@ router.get("/:id", (req, res) => {
             id: pro[0].id,
             name: pro[0].name,
             description: pro[0].description,
-            completed: pro.completed,
+            completed: !!pro.completed,
             tasks: task,
             resources: resource
           };
