@@ -6,7 +6,8 @@ module.exports = {
   getTasksByProjectId,
   getResourcesByProjectId,
   addProject,
-  updateProject
+  updateProject,
+  deleteProject
 };
 
 // return all projects.
@@ -42,4 +43,10 @@ function updateProject(id, data) {
   return db("projects")
     .where({ id })
     .update(data);
+}
+
+function deleteProject(id) {
+  return db("projects")
+    .where({ id })
+    .del();
 }
