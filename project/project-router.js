@@ -57,4 +57,25 @@ router.post("/", (req, res) => {
   }
 });
 
+router.put("/:id", (req, res) => {
+  const data = req.body;
+
+  Project.updateProject(req.params.id, data)
+    .then(count => {
+      if (count) {
+        return Project.getProjectId(req.params.id).then(proj => {
+          res.status(200).json({ proj });
+        });
+      } else {
+        res
+          .status(404)
+          .json({ message: "Could not find project with given id" });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "failed to update project" });
+    });
+});
+
 module.exports = router;
